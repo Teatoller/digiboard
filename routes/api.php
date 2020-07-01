@@ -18,22 +18,31 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-// Route::get('/', function () {
-//     return response()->json(['message'=>'Hello World!']);
-// });
+Route::group([
+
+    'middleware' => [ 'public'=>'api']
+
+], function () {
+
+
+});
 
 Route::group([
 
-    'middleware' => 'api',
-    // 'namespace' => 'App\Http\Controllers',
-    'prefix' => 'auth'
+    'middleware' => [ 'auth'=>'api']
+
+], function () {
+
+});
+
+// Route for guests only
+Route::group([
+
+    'middleware' => [ 'guest'=>'api']
 
 ], function () {
 
     Route::post('register', 'Auth\RegisterController@register');
-    Route::post('login', 'AuthController@login');
-    Route::post('logout', 'AuthController@logout');
-    Route::post('refresh', 'AuthController@refresh');
-    Route::post('me', 'AuthController@me');
-
+    Route::post('verification/verify/{user}', 'Auth\VerificationController@verify')->name('verification.verify');
+    Route::post('verification/resend', 'Auth\VerificationController@resend');
 });

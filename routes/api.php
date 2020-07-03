@@ -14,9 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::middleware('auth:api')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
+// Public routes
 
 Route::group([
 
@@ -27,11 +25,13 @@ Route::group([
 
 });
 
+// Route group for authenticated users
 Route::group([
 
     'middleware' => [ 'auth'=>'api']
 
 ], function () {
+    Route::post('logout', 'Auth\LoginController@logout');
 
 });
 

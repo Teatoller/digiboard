@@ -39,7 +39,7 @@ class VerificationController extends Controller
     public function __construct()
     {
         // $this->middleware('auth');
-        $this->middleware('signed')->only('verify');
+        // $this->middleware('signed')->only('verify');
         $this->middleware('throttle:6,1')->only('verify', 'resend');
     }
 
@@ -55,7 +55,7 @@ class VerificationController extends Controller
     {
         // check if the url is a valid signed url
         if (!URL::hasValidSignature($request)) {
-            return response()->json(['errors' => ['message' => "Invalid verification"]], 422);
+            return response()->json(['errors' => ['message' => "Invalid verification"]], 403);
         }
 
         // check if the user has already verified the account
@@ -83,14 +83,14 @@ class VerificationController extends Controller
         if (!$user) {
             return response()->json(["errors" => [
                 'email' => 'No user could be found with this email address',
-            ]], 422);
+            ]], 403);
         }
 
         // check if the user has already verified the account
         if ($user->hasVerifiedEmail()) {
             return response()->json(['errors' => [
                 'message' => "Email address already verified",
-            ]], 422);
+            ]], 403);
         }
 
         $user->sendEmailVerificationNotification();

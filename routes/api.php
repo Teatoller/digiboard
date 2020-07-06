@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -12,23 +11,16 @@ use Illuminate\Support\Facades\Route;
 | routes are loaded by the RouteServiceProvider within a group which
 | is assigned the "api" middleware group. Enjoy building your API!
 |
-*/
+ */
 
 // Public routes
 
-Route::group([
-
-    'middleware' => [ 'public'=>'api']
-
-], function () {
-
-
-});
+Route::get('me', "User\MeController@getMe");
 
 // Route group for authenticated users
 Route::group([
 
-    'middleware' => [ 'auth'=>'api']
+    'middleware' => ['auth' => 'api'],
 
 ], function () {
     Route::post('logout', 'Auth\LoginController@logout');
@@ -38,7 +30,7 @@ Route::group([
 // Route for guests only
 Route::group([
 
-    'middleware' => [ 'guest'=>'api']
+    'middleware' => ['guest' => 'api'],
 
 ], function () {
 

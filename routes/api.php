@@ -28,6 +28,8 @@ Route::group([
     Route::put('settings/profile', 'User\SettingsController@updateProfile');
     Route::put('settings/password', 'User\SettingsController@updatePassword');
 
+    Route::post('designs', 'Designs\UploadController@upload');
+
 });
 
 // Route for guests only
